@@ -1,26 +1,749 @@
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>electrify-bill-vista</title>
-    <meta name="description" content="Lovable Generated Project" />
-    <meta name="author" content="Lovable" />
-
-    <meta property="og:title" content="electrify-bill-vista" />
-    <meta property="og:description" content="Lovable Generated Project" />
-    <meta property="og:type" content="website" />
-    <meta property="og:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
-
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@lovable_dev" />
-    <meta name="twitter:image" content="https://lovable.dev/opengraph-image-p98pqg.png" />
+    <title>ElectriBill - Electricity Billing System</title>
+    <meta name="description" content="Electricity Billing Management System" />
+    <meta name="author" content="ElectriBill" />
+    <link rel="stylesheet" href="/styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
+    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
   </head>
 
   <body>
-    <div id="root"></div>
-    <!-- IMPORTANT: DO NOT REMOVE THIS SCRIPT TAG OR THIS VERY COMMENT! -->
-    <script src="https://cdn.gpteng.co/gptengineer.js" type="module"></script>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="root">
+      <div class="app-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+          <div class="sidebar-header">
+            <div class="logo">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="logo-icon">
+                <path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/>
+              </svg>
+              <h1>ElectriBill</h1>
+            </div>
+            <button id="sidebar-toggle">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <path d="M18 6L6 18M6 6l12 12"/>
+              </svg>
+            </button>
+          </div>
+          <div class="sidebar-menu">
+            <a href="#dashboard" class="menu-item active" data-page="dashboard">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/>
+                <polyline points="9 22 9 12 15 12 15 22"/>
+              </svg>
+              <span>Dashboard</span>
+            </a>
+            <a href="#customers" class="menu-item" data-page="customers">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                <circle cx="12" cy="7" r="4"/>
+              </svg>
+              <span>Customers</span>
+            </a>
+            <a href="#bills" class="menu-item" data-page="bills">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                <polyline points="14 2 14 8 20 8"/>
+                <line x1="16" y1="13" x2="8" y2="13"/>
+                <line x1="16" y1="17" x2="8" y2="17"/>
+                <polyline points="10 9 9 9 8 9"/>
+              </svg>
+              <span>Bills</span>
+            </a>
+            <a href="#payments" class="menu-item" data-page="payments">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                <line x1="1" y1="10" x2="23" y2="10"/>
+              </svg>
+              <span>Payments</span>
+            </a>
+            <a href="#settings" class="menu-item" data-page="settings">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                <circle cx="12" cy="12" r="3"/>
+                <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/>
+              </svg>
+              <span>Settings</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Main Content -->
+        <main class="main-content">
+          <!-- Content sections will be loaded dynamically -->
+          <div id="page-content">
+            <!-- Dashboard content (default page) -->
+            <div id="dashboard-page" class="page active">
+              <div class="page-header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                  <button class="btn btn-outline">Export Data</button>
+                  <button class="btn btn-primary">Quick Pay</button>
+                </div>
+              </div>
+
+              <div class="cards-grid">
+                <div class="card stat-card">
+                  <div class="stat-card-header">
+                    <h3>Total Customers</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
+                      <circle cx="12" cy="7" r="4"/>
+                    </svg>
+                  </div>
+                  <div class="stat-card-content">
+                    <h2>245</h2>
+                    <p>+12 from last month</p>
+                  </div>
+                </div>
+                <div class="card stat-card">
+                  <div class="stat-card-header">
+                    <h3>Pending Bills</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                      <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                  </div>
+                  <div class="stat-card-content">
+                    <h2>68</h2>
+                    <p>32 due within 7 days</p>
+                  </div>
+                </div>
+                <div class="card stat-card">
+                  <div class="stat-card-header">
+                    <h3>Revenue</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <line x1="12" y1="1" x2="12" y2="23"/>
+                      <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/>
+                    </svg>
+                  </div>
+                  <div class="stat-card-content">
+                    <h2>$57,845.00</h2>
+                    <p>+8.2% from last month</p>
+                  </div>
+                </div>
+                <div class="card stat-card">
+                  <div class="stat-card-header">
+                    <h3>Collection Rate</h3>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <rect x="1" y="4" width="22" height="16" rx="2" ry="2"/>
+                      <line x1="1" y1="10" x2="23" y2="10"/>
+                    </svg>
+                  </div>
+                  <div class="stat-card-content">
+                    <h2>87.5%</h2>
+                    <div class="progress-bar">
+                      <div class="progress-value" style="width: 87.5%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="charts-grid">
+                <div class="card chart-card wide-card">
+                  <div class="chart-header">
+                    <h2>Energy Consumption Overview</h2>
+                    <p>Monthly energy usage in kWh for 2023</p>
+                  </div>
+                  <div class="chart-content">
+                    <canvas id="consumption-chart"></canvas>
+                  </div>
+                </div>
+                <div class="card chart-card">
+                  <div class="chart-header">
+                    <h2>Recent Activity</h2>
+                    <p>Latest customer and billing activities</p>
+                  </div>
+                  <div class="activity-list">
+                    <div class="activity-item">
+                      <div class="activity-indicator customer"></div>
+                      <div class="activity-content">
+                        <p class="activity-title">New customer registered</p>
+                        <p class="activity-time">2 hours ago</p>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-indicator payment"></div>
+                      <div class="activity-content">
+                        <p class="activity-title">Bill #EL-2023-089 paid</p>
+                        <p class="activity-time">Yesterday</p>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-indicator bill"></div>
+                      <div class="activity-content">
+                        <p class="activity-title">36 new bills generated</p>
+                        <p class="activity-time">2 days ago</p>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-indicator customer"></div>
+                      <div class="activity-content">
+                        <p class="activity-title">Customer #143 updated profile</p>
+                        <p class="activity-time">3 days ago</p>
+                      </div>
+                    </div>
+                    <div class="activity-item">
+                      <div class="activity-indicator system"></div>
+                      <div class="activity-content">
+                        <p class="activity-title">System maintenance completed</p>
+                        <p class="activity-time">5 days ago</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Customers Page -->
+            <div id="customers-page" class="page">
+              <div class="page-header">
+                <h1>Customers</h1>
+                <div class="header-actions">
+                  <button class="btn btn-primary" id="add-customer-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <path d="M16 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/>
+                      <circle cx="8.5" cy="7" r="4"/>
+                      <line x1="20" y1="8" x2="20" y2="14"/>
+                      <line x1="23" y1="11" x2="17" y2="11"/>
+                    </svg>
+                    Add Customer
+                  </button>
+                </div>
+              </div>
+
+              <div class="search-bar">
+                <input type="text" id="customer-search" placeholder="Search customers...">
+              </div>
+
+              <div class="card table-card">
+                <table class="data-table" id="customers-table">
+                  <thead>
+                    <tr>
+                      <th>Account No</th>
+                      <th>Name</th>
+                      <th class="hide-on-mobile">Address</th>
+                      <th class="hide-on-mobile">Phone</th>
+                      <th class="hide-on-mobile">Email</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Customer rows will be added dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Bills Page -->
+            <div id="bills-page" class="page">
+              <div class="page-header">
+                <h1>Electricity Bills</h1>
+                <div class="header-actions">
+                  <button class="btn btn-primary" id="generate-bills-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                      <polyline points="14 2 14 8 20 8"/>
+                      <line x1="16" y1="13" x2="8" y2="13"/>
+                      <line x1="16" y1="17" x2="8" y2="17"/>
+                      <polyline points="10 9 9 9 8 9"/>
+                    </svg>
+                    Generate Bills
+                  </button>
+                </div>
+              </div>
+
+              <div class="filter-bar">
+                <div class="search-bar">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" id="bill-search" placeholder="Search by bill number or customer...">
+                </div>
+                <div class="select-container">
+                  <select id="bill-status-filter">
+                    <option value="all">All Bills</option>
+                    <option value="unpaid">Unpaid</option>
+                    <option value="paid">Paid</option>
+                    <option value="overdue">Overdue</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="card table-card">
+                <table class="data-table" id="bills-table">
+                  <thead>
+                    <tr>
+                      <th>Bill #</th>
+                      <th>Customer</th>
+                      <th>Units</th>
+                      <th>Amount</th>
+                      <th class="hide-on-mobile">Generated</th>
+                      <th class="hide-on-mobile">Due Date</th>
+                      <th>Status</th>
+                      <th>Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Bill rows will be added dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Payments Page -->
+            <div id="payments-page" class="page">
+              <div class="page-header">
+                <h1>Payment History</h1>
+                <div class="header-actions">
+                  <button class="btn btn-primary" id="export-payments-btn">
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+                      <polyline points="7 10 12 15 17 10"/>
+                      <line x1="12" y1="15" x2="12" y2="3"/>
+                    </svg>
+                    Export Report
+                  </button>
+                </div>
+              </div>
+
+              <div class="charts-grid">
+                <div class="card chart-card">
+                  <div class="chart-header">
+                    <h2>Monthly Revenue</h2>
+                  </div>
+                  <div class="chart-content">
+                    <canvas id="revenue-chart"></canvas>
+                  </div>
+                </div>
+                <div class="card chart-card">
+                  <div class="chart-header">
+                    <h2>Payment Methods</h2>
+                  </div>
+                  <div class="chart-content">
+                    <canvas id="payment-methods-chart"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <div class="filter-bar">
+                <div class="search-bar">
+                  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="icon">
+                    <circle cx="11" cy="11" r="8"/>
+                    <line x1="21" y1="21" x2="16.65" y2="16.65"/>
+                  </svg>
+                  <input type="text" id="payment-search" placeholder="Search by transaction ID, customer or bill number...">
+                </div>
+                <div class="select-container">
+                  <select id="payment-method-filter">
+                    <option value="all">All Methods</option>
+                    <option value="credit-card">Credit Card</option>
+                    <option value="debit-card">Debit Card</option>
+                    <option value="bank-transfer">Bank Transfer</option>
+                    <option value="cash">Cash</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="card table-card">
+                <table class="data-table" id="payments-table">
+                  <thead>
+                    <tr>
+                      <th>Transaction ID</th>
+                      <th>Bill #</th>
+                      <th>Customer</th>
+                      <th>Amount</th>
+                      <th>Method</th>
+                      <th>Date</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <!-- Payment rows will be added dynamically -->
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <!-- Settings Page -->
+            <div id="settings-page" class="page">
+              <div class="page-header">
+                <h1>Settings</h1>
+                <p class="subtitle">Manage your system preferences and settings</p>
+              </div>
+
+              <div class="tabs">
+                <div class="tab-header">
+                  <button class="tab-btn active" data-tab="company-tab">Company Information</button>
+                  <button class="tab-btn" data-tab="billing-tab">Billing Settings</button>
+                  <button class="tab-btn" data-tab="notifications-tab">Notifications</button>
+                  <button class="tab-btn" data-tab="security-tab">Security</button>
+                </div>
+                <div class="tab-content">
+                  <div id="company-tab" class="tab-pane active">
+                    <div class="card">
+                      <div class="card-header">
+                        <h2>Company Profile</h2>
+                        <p>Update your company information that appears on bills and receipts.</p>
+                      </div>
+                      <div class="card-content">
+                        <form id="company-form" class="settings-form">
+                          <div class="form-grid">
+                            <div class="form-group">
+                              <label for="company-name">Company Name</label>
+                              <input type="text" id="company-name" name="company-name" value="ElectriBill Power Co.">
+                            </div>
+                            <div class="form-group">
+                              <label for="company-email">Email</label>
+                              <input type="email" id="company-email" name="company-email" value="support@electribill.com">
+                            </div>
+                            <div class="form-group">
+                              <label for="company-phone">Phone</label>
+                              <input type="tel" id="company-phone" name="company-phone" value="(555) 123-4567">
+                            </div>
+                            <div class="form-group">
+                              <label for="company-website">Website</label>
+                              <input type="url" id="company-website" name="company-website" value="www.electribill.com">
+                            </div>
+                            <div class="form-group full-width">
+                              <label for="company-address">Address</label>
+                              <input type="text" id="company-address" name="company-address" value="123 Energy Lane, Power City, PC 12345">
+                            </div>
+                          </div>
+                          
+                          <div class="divider"></div>
+                          
+                          <div class="form-group">
+                            <label for="company-logo">Company Logo</label>
+                            <div class="logo-upload">
+                              <div class="logo-preview">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                  <rect x="3" y="3" width="18" height="18" rx="2" ry="2"/>
+                                  <circle cx="8.5" cy="8.5" r="1.5"/>
+                                  <polyline points="21 15 16 10 5 21"/>
+                                </svg>
+                              </div>
+                              <button type="button" class="btn btn-outline">Upload Logo</button>
+                            </div>
+                          </div>
+                          
+                          <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div id="billing-tab" class="tab-pane">
+                    <div class="card">
+                      <div class="card-header">
+                        <h2>Billing Configuration</h2>
+                        <p>Configure rates, fees, and billing behavior.</p>
+                      </div>
+                      <div class="card-content">
+                        <form id="billing-form" class="settings-form">
+                          <div class="form-grid">
+                            <div class="form-group">
+                              <label for="rate-per-unit">Rate per kWh ($)</label>
+                              <input type="number" id="rate-per-unit" name="rate-per-unit" value="0.12" step="0.01">
+                            </div>
+                            <div class="form-group">
+                              <label for="tax-rate">Tax Rate (%)</label>
+                              <input type="number" id="tax-rate" name="tax-rate" value="6.5" step="0.1">
+                            </div>
+                            <div class="form-group">
+                              <label for="late-payment-fee">Late Payment Fee ($)</label>
+                              <input type="number" id="late-payment-fee" name="late-payment-fee" value="10" step="0.01">
+                            </div>
+                            <div class="form-group">
+                              <label for="grace-period">Grace Period (days)</label>
+                              <input type="number" id="grace-period" name="grace-period" value="10">
+                            </div>
+                          </div>
+                          
+                          <div class="divider"></div>
+                          
+                          <div class="toggle-options">
+                            <div class="toggle-item">
+                              <div>
+                                <label for="auto-generate-bills">Auto-Generate Bills</label>
+                                <p class="toggle-description">Automatically generate bills on the 1st of each month</p>
+                              </div>
+                              <label class="toggle">
+                                <input type="checkbox" id="auto-generate-bills" checked>
+                                <span class="toggle-slider"></span>
+                              </label>
+                            </div>
+                          </div>
+                          
+                          <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div id="notifications-tab" class="tab-pane">
+                    <div class="card">
+                      <div class="card-header">
+                        <h2>Notification Settings</h2>
+                        <p>Configure how and when notifications are sent.</p>
+                      </div>
+                      <div class="card-content">
+                        <form id="notifications-form" class="settings-form">
+                          <div class="toggle-options">
+                            <div class="toggle-item">
+                              <div>
+                                <label for="email-notifications">Email Notifications</label>
+                                <p class="toggle-description">Send bill notifications via email</p>
+                              </div>
+                              <label class="toggle">
+                                <input type="checkbox" id="email-notifications" checked>
+                                <span class="toggle-slider"></span>
+                              </label>
+                            </div>
+                            <div class="toggle-item">
+                              <div>
+                                <label for="sms-notifications">SMS Notifications</label>
+                                <p class="toggle-description">Send payment reminders via SMS</p>
+                              </div>
+                              <label class="toggle">
+                                <input type="checkbox" id="sms-notifications">
+                                <span class="toggle-slider"></span>
+                              </label>
+                            </div>
+                            <div class="toggle-item">
+                              <div>
+                                <label for="due-reminders">Due Date Reminders</label>
+                                <p class="toggle-description">Send reminders 3 days before due date</p>
+                              </div>
+                              <label class="toggle">
+                                <input type="checkbox" id="due-reminders" checked>
+                                <span class="toggle-slider"></span>
+                              </label>
+                            </div>
+                          </div>
+                          
+                          <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Save Changes</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+                  <div id="security-tab" class="tab-pane">
+                    <div class="card">
+                      <div class="card-header">
+                        <h2>Security Settings</h2>
+                        <p>Configure security and access control.</p>
+                      </div>
+                      <div class="card-content">
+                        <form id="security-form" class="settings-form">
+                          <div class="form-group full-width">
+                            <label for="current-password">Current Password</label>
+                            <input type="password" id="current-password" name="current-password">
+                          </div>
+                          <div class="form-group full-width">
+                            <label for="new-password">New Password</label>
+                            <input type="password" id="new-password" name="new-password">
+                          </div>
+                          <div class="form-group full-width">
+                            <label for="confirm-password">Confirm New Password</label>
+                            <input type="password" id="confirm-password" name="confirm-password">
+                          </div>
+                          
+                          <div class="divider"></div>
+                          
+                          <div class="toggle-options">
+                            <div class="toggle-item">
+                              <div>
+                                <label for="two-factor">Two-Factor Authentication</label>
+                                <p class="toggle-description">Require a verification code when logging in</p>
+                              </div>
+                              <label class="toggle">
+                                <input type="checkbox" id="two-factor">
+                                <span class="toggle-slider"></span>
+                              </label>
+                            </div>
+                          </div>
+                          
+                          <div class="form-actions">
+                            <button type="submit" class="btn btn-primary">Update Security Settings</button>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
+      </div>
+
+      <!-- Modal Container -->
+      <div class="modal-container" id="modal-container">
+        <!-- Add Customer Modal -->
+        <div class="modal" id="add-customer-modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Add New Customer</h2>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form id="add-customer-form">
+                <div class="form-group">
+                  <label for="new-customer-name">Name</label>
+                  <input type="text" id="new-customer-name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="new-customer-address">Address</label>
+                  <input type="text" id="new-customer-address" name="address" required>
+                </div>
+                <div class="form-group">
+                  <label for="new-customer-phone">Phone</label>
+                  <input type="tel" id="new-customer-phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="new-customer-email">Email</label>
+                  <input type="email" id="new-customer-email" name="email" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-outline" id="cancel-add-customer">Cancel</button>
+              <button class="btn btn-primary" id="confirm-add-customer">Add Customer</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Edit Customer Modal -->
+        <div class="modal" id="edit-customer-modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Edit Customer</h2>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <form id="edit-customer-form">
+                <input type="hidden" id="edit-customer-id">
+                <div class="form-group">
+                  <label for="edit-customer-name">Name</label>
+                  <input type="text" id="edit-customer-name" name="name" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-customer-address">Address</label>
+                  <input type="text" id="edit-customer-address" name="address" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-customer-phone">Phone</label>
+                  <input type="tel" id="edit-customer-phone" name="phone" required>
+                </div>
+                <div class="form-group">
+                  <label for="edit-customer-email">Email</label>
+                  <input type="email" id="edit-customer-email" name="email" required>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-outline" id="cancel-edit-customer">Cancel</button>
+              <button class="btn btn-primary" id="confirm-edit-customer">Save Changes</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pay Bill Modal -->
+        <div class="modal" id="pay-bill-modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Pay Bill</h2>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <div class="bill-summary">
+                <div class="bill-info-grid">
+                  <div>
+                    <p class="info-label">Bill Number</p>
+                    <p id="pay-bill-number" class="info-value">BILL-001-2023</p>
+                  </div>
+                  <div>
+                    <p class="info-label">Customer</p>
+                    <p id="pay-bill-customer" class="info-value">John Smith</p>
+                  </div>
+                  <div>
+                    <p class="info-label">Amount</p>
+                    <p id="pay-bill-amount" class="info-value">$124.50</p>
+                  </div>
+                  <div>
+                    <p class="info-label">Due Date</p>
+                    <p id="pay-bill-due-date" class="info-value">Jul 15, 2023</p>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="divider"></div>
+              
+              <form id="pay-bill-form">
+                <input type="hidden" id="pay-bill-id">
+                <div class="form-group">
+                  <label for="payment-method">Select Payment Method</label>
+                  <select id="payment-method" name="payment-method" required>
+                    <option value="">Choose payment method</option>
+                    <option value="credit">Credit Card</option>
+                    <option value="debit">Debit Card</option>
+                    <option value="bank">Bank Transfer</option>
+                    <option value="cash">Cash</option>
+                  </select>
+                </div>
+              </form>
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-outline" id="cancel-payment">Cancel</button>
+              <button class="btn btn-primary" id="confirm-payment">Complete Payment</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Delete Customer Confirmation Modal -->
+        <div class="modal" id="delete-customer-modal">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h2>Confirm Deletion</h2>
+              <button class="close-modal">&times;</button>
+            </div>
+            <div class="modal-body">
+              <p>Are you sure you want to delete this customer? This action cannot be undone.</p>
+              <input type="hidden" id="delete-customer-id">
+            </div>
+            <div class="modal-footer">
+              <button class="btn btn-outline" id="cancel-delete-customer">Cancel</button>
+              <button class="btn btn-danger" id="confirm-delete-customer">Delete Customer</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Toast Notifications -->
+      <div class="toast-container" id="toast-container">
+        <!-- Toasts will be added dynamically -->
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <script src="/script.js"></script>
   </body>
 </html>
