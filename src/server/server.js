@@ -1,4 +1,3 @@
-
 const express = require('express');
 const mysql = require('mysql2');
 const cors = require('cors');
@@ -37,28 +36,33 @@ app.get('/api/customers', (req, res) => {
       console.error('Error fetching customers:', err);
       return res.status(500).json({ error: 'Failed to fetch customers' });
     }
+    console.log('Fetched customers:', results.length);
     res.json(results);
   });
 });
 
 app.post('/api/customers', (req, res) => {
   const { cust_name, address, pin_code, city, state } = req.body;
+  console.log('Creating customer:', req.body);
   
   db.query('SELECT MAX(cust_id) as max_id FROM Customer', (err, results) => {
     if (err) {
+      console.error('Error getting max customer ID:', err);
       return res.status(500).json({ error: 'Failed to create customer' });
     }
     
     const cust_id = results[0].max_id ? results[0].max_id + 1 : 101;
+    console.log('New customer ID:', cust_id);
     
     db.query(
       'INSERT INTO Customer (cust_id, cust_name, address, pin_code, city, state) VALUES (?, ?, ?, ?, ?, ?)',
       [cust_id, cust_name, address, pin_code, city, state],
-      (err) => {
+      (err, result) => {
         if (err) {
           console.error('Error creating customer:', err);
-          return res.status(500).json({ error: 'Failed to create customer' });
+          return res.status(500).json({ error: 'Failed to create customer: ' + err.message });
         }
+        console.log('Customer created successfully:', result);
         res.status(201).json({ success: true, cust_id });
       }
     );
@@ -67,12 +71,14 @@ app.post('/api/customers', (req, res) => {
 
 app.delete('/api/customers/:id', (req, res) => {
   const custId = req.params.id;
+  console.log('Deleting customer:', custId);
   
   db.query('DELETE FROM Customer WHERE cust_id = ?', [custId], (err, result) => {
     if (err) {
       console.error('Error deleting customer:', err);
-      return res.status(500).json({ error: 'Failed to delete customer' });
+      return res.status(500).json({ error: 'Failed to delete customer: ' + err.message });
     }
+    console.log('Customer deleted successfully:', result);
     res.json({ success: true });
   });
 });
@@ -84,28 +90,33 @@ app.get('/api/accounts', (req, res) => {
       console.error('Error fetching accounts:', err);
       return res.status(500).json({ error: 'Failed to fetch accounts' });
     }
+    console.log('Fetched accounts:', results.length);
     res.json(results);
   });
 });
 
 app.post('/api/accounts', (req, res) => {
   const { cust_id, account_name, name } = req.body;
+  console.log('Creating account:', req.body);
   
   db.query('SELECT MAX(acc_id) as max_id FROM Account', (err, results) => {
     if (err) {
+      console.error('Error getting max account ID:', err);
       return res.status(500).json({ error: 'Failed to create account' });
     }
     
     const acc_id = results[0].max_id ? results[0].max_id + 1 : 201;
+    console.log('New account ID:', acc_id);
     
     db.query(
       'INSERT INTO Account (acc_id, cust_id, account_name, name) VALUES (?, ?, ?, ?)',
       [acc_id, cust_id, account_name, name],
-      (err) => {
+      (err, result) => {
         if (err) {
           console.error('Error creating account:', err);
-          return res.status(500).json({ error: 'Failed to create account' });
+          return res.status(500).json({ error: 'Failed to create account: ' + err.message });
         }
+        console.log('Account created successfully:', result);
         res.status(201).json({ success: true, acc_id });
       }
     );
@@ -124,29 +135,34 @@ app.get('/api/billings', (req, res) => {
       console.error('Error fetching billings:', err);
       return res.status(500).json({ error: 'Failed to fetch billings' });
     }
+    console.log('Fetched billings:', results.length);
     res.json(results);
   });
 });
 
 app.post('/api/billings', (req, res) => {
   const { acc_id, cust_id, monthly_units, per_unit } = req.body;
+  console.log('Creating billing:', req.body);
   
   db.query('SELECT MAX(meter_number) as max_id FROM Billing', (err, results) => {
     if (err) {
+      console.error('Error getting max meter number:', err);
       return res.status(500).json({ error: 'Failed to create billing' });
     }
     
     const meter_number = results[0].max_id ? results[0].max_id + 1 : 301;
     const amount = monthly_units * per_unit;
+    console.log('New meter number:', meter_number, 'Amount:', amount);
     
     db.query(
       'INSERT INTO Billing (meter_number, acc_id, cust_id, monthly_units, per_unit, amount) VALUES (?, ?, ?, ?, ?, ?)',
       [meter_number, acc_id, cust_id, monthly_units, per_unit, amount],
-      (err) => {
+      (err, result) => {
         if (err) {
           console.error('Error creating billing:', err);
-          return res.status(500).json({ error: 'Failed to create billing' });
+          return res.status(500).json({ error: 'Failed to create billing: ' + err.message });
         }
+        console.log('Billing created successfully:', result);
         res.status(201).json({ success: true, meter_number });
       }
     );
@@ -256,6 +272,23 @@ app.get('/api/dashboard', (req, res) => {
   });
 });
 
+// Add a health check endpoint
+app.get('/api/health', (req, res) => {
+  db.query('SELECT 1 as health', (err, results) => {
+    if (err) {
+      console.error('Database health check failed:', err);
+      return res.status(500).json({ status: 'error', message: 'Database connection failed' });
+    }
+    res.json({ status: 'ok', message: 'Server is running and connected to database' });
+  });
+});
+
+// Start the server
 app.listen(port, () => {
   console.log(`Server running on port ${port}`);
+});
+
+// Handle server errors
+process.on('uncaughtException', (error) => {
+  console.error('Uncaught Exception:', error);
 });
